@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            margin: 0;
+            overscroll-behavior: none;
+        }
+        view-port {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        battle-map {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        @property --x {
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: true;
+}
+
+@property --y {
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: true;
+}
+
+    </style>
+    <script type="module" src="./src/ui/view-port/view-port.ts"></script>
+    <script type="module" src="./src/ui/battle-map.ts"></script>
+<body>
+    <script>
+        document.addEventListener('wheel', ev => ev.preventDefault(), {passive: false});
+        document.addEventListener('dragover', ev => {
+            ev.preventDefault();
+        }, {capture: true});
+        document.addEventListener('drop', ev => ev.preventDefault());
+    </script>
+    <view-port>
+        <battle-map src="https://i.redd.it/1hvblj3hiuq81.jpg" grid-size="25.6"></battle-map>
+    </view-port>
+</body>
+</html>

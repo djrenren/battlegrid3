@@ -1,0 +1,108 @@
+@property --x {
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: true;
+}
+
+@property --y {
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: true;
+}
+
+@property --scale {
+    syntax: '<number>';
+    initial-value: 1;
+    inherits: true;
+}
+
+@property --ec {
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: true;
+}
+
+:host {
+    display: block;
+    position: relative;
+    overflow: clip;
+    contain: strict;
+    background: #f2f2f2;
+    --scale: 1;
+    --scroll-thickness: 10px;
+    --x: 0;
+    --y: 0;
+    --vw: 0;
+    --vh: 0;
+    --cw: 0;
+    --ch: 0;
+}
+:host(.grabbing) {
+    cursor: grabbing;
+
+}
+
+#transform {
+    display: inline-block;
+    will-change: transform;
+    transform-origin: 0 0;
+    transform: translate3d(calc(var(--x) * -1px), calc(var(--y) * -1px), 0) scale(var(--scale));
+}
+
+#scroll-x {
+    position: fixed;
+    background: blue;
+}
+
+/** Directional calculations occur in the gutter */
+
+.x {
+    inset: auto 0 0 0;
+    --v: var(--vw);
+    --p: var(--x);
+    --c: var(--cw);
+}
+
+.y {
+    inset: 0 0 0 auto;
+    writing-mode: vertical-lr;
+    --v: var(--vh);
+    --p: var(--y);
+    --c: var(--ch);
+}
+
+.gutter {
+    inline-size: calc(100% - 14px);
+    block-size: 10px;
+    box-sizing: border-box;
+    padding-block-end: 4px;
+    padding-inline-start: 4px;
+    position: fixed;
+    container-type: size;
+    --ec: calc(
+        var(--c) * var(--scale)
+        + max(0, var(--p) * -1)
+        + max(0, var(--v) + var(--p) - var(--c) * var(--scale)));
+}
+
+/** Scroll bar positioning */
+.y > .scroll {
+    translate: 0 var(--t) 0;
+}
+.x > .scroll {
+    translate: var(--t) 0 0;
+}
+
+
+@container (min-width: 0px) {
+    .scroll {
+        background: #111;
+        border: 1px solid #aaa;
+        border-radius: 100cqb;
+        block-size: 100%;
+        opacity: 0.5;
+        --thickness: calc(var(--v) / var(--ec));
+        --t: calc(clamp(0, var(--p) / var(--ec), 1 - var(--thickness)) * 100cqi);
+        inline-size: calc(var(--thickness) * 100%);
+    }
+}
