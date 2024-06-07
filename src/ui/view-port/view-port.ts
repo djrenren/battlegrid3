@@ -116,7 +116,7 @@ export class ViewPort extends HTMLElement {
 
     #pointerDown = (event: PointerEvent) => {
         // TODO: switch to pressure when safari is fixed
-        if (!event.isPrimary || event.buttons !== 1) return;
+        if (!event.isPrimary || (event.buttons !== 1 && event.pointerType !== 'touch')) return;
         event.preventDefault();
         event.stopPropagation();
         this.setPointerCapture(event.pointerId);
@@ -124,7 +124,7 @@ export class ViewPort extends HTMLElement {
     }
     #pointerMove = (event: PointerEvent) => {
         // TODO: switch to pressure when safari is fixed
-        if (!event.isPrimary || event.buttons !== 1) return;
+        if (!event.isPrimary || (event.buttons !== 1 && event.pointerType !== 'touch')) return;
         event.preventDefault();
         event.stopPropagation();
         const x = parseFloat(this.#computedStyles.getPropertyValue("--x"));
