@@ -29,7 +29,6 @@ export class ViewPort extends HTMLElement {
         this.addEventListener('pointermove', this.#pointerMove);
         this.addEventListener('pointerup', this.#pointerUp);
         this.addEventListener('pointercancel', this.#pointerUp);
-        this.tabIndex = -1;
     }
 
     #resizeObserver = new ResizeObserver(entries => {
