@@ -1,69 +1,103 @@
-import "./drop-preview";
+import { LitElement, css, html } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import {ref, createRef, type Ref} from 'lit/directives/ref.js';
+import { styleMap } from "lit/directives/style-map.js";
 
-class BattleMap extends HTMLElement {
-    #root: ShadowRoot;
-    #img: HTMLImageElement;
-    #canvas: HTMLCanvasElement;
+/** Implements a battle map with render lines and a drop preview */
+@customElement('battle-map')
+class BattleMap extends LitElement {
+    /** The image to render as the background */
+    @property()
+    src: string = "";
 
-    constructor() {
-        super();
-        this.#root = this.attachShadow({ mode: 'open' });
-        this.#canvas = document.createElement('canvas');
-        this.#canvas.style.position = 'absolute';
-        this.#root.appendChild(this.#canvas);
+    /** The size of the grid-lines */
+    @property({attribute: 'grid-size', type: Number})
+    grid_size: number = 32;
 
-        this.#img = new Image();
-        this.#img.src = this.getAttribute('src') || '';
-        this.#img.onload = this.#render;
-        this.#img.style.display = "block";
-        this.#img.style.pointerEvents = "none";
-        this.#root.appendChild(this.#img);
-        this.#render();
-        this.style.position = 'relative';
-        this.style.display = 'inline-block';
+    /** The canvas we render the lines on */
+    #canvas: Ref<HTMLCanvasElement> = createRef();
+
+    @property({attribute: false})
+    hover: {x: number, y: number} | null = null;
+
+    render() {
+        console.log("RENDERING", this.hover);
+        return html`
+            <canvas ${ref(this.#canvas)}></canvas>
+            <img src=${this.src} @load=${this.#onload} />
+            ${this.hover ?
+                html`<div class="drop-preview" style=${styleMap({
+                    left: Math.floor(this.hover.x / this.grid_size) * this.grid_size + 'px',
+                    top: Math.floor(this.hover.y / this.grid_size) * this.grid_size + 'px',
+                    width: this.grid_size + 'px',
+                    height: this.grid_size + 'px',
+                })}></div>` :
+                null
+            }
+        `;
+    }
+
+    static styles = css`
+        :host {
+            position: relative;
+            display: inline-block;
+        }
+
+        img {
+            display: block;
+            pointer-events: none;
+        }
+
+        canvas {
+            position: absolute;
+        }
+        .drop-preview {
+            position: absolute;
+            background: #000;
+        }
+    `;
+
+    connectedCallback(): void {
+        super.connectedCallback();
+
         this.addEventListener('dragover', e => {
-            const preview = document.createElement('drop-preview');
-            preview.style.position = 'absolute';
-            const gridSize = parseFloat(this.getAttribute('grid-size')!);
-
-            preview.style.left = Math.floor(e.offsetX / gridSize) * gridSize + 'px';
-            preview.style.top = Math.floor(e.offsetY / gridSize) * gridSize + 'px';
-            preview.style.width = this.getAttribute('grid-size') + 'px';
-            preview.style.height = this.getAttribute('grid-size') + 'px';
-            this.#root.appendChild(preview);
-        }, );
-        this.#root.addEventListener('token-drop', ev => {
+            this.hover = {x: e.offsetX, y: e.offsetY};
+        });
+        const clear = () => {
+            this.hover = null;
+        };
+        this.addEventListener('dragend', clear);
+        this.addEventListener('dragleave', clear);
+        this.addEventListener('drop', clear);
+        this.addEventListener('token-drop', ev => {
             console.log("DROPPPPPPPPPP", ev);
         })
     }
 
-    static observedAttributes = ['src', 'grid-size'];
+    #onload = (ev: Event) => {
+        const t = ev.target as HTMLImageElement;
+        const c = this.#canvas.value!;
+        console.log("c", c);
+        c.width = t.naturalWidth;
+        c.height = t.naturalHeight;
+        let w = t.naturalWidth;
+        let h = t.naturalHeight;
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'src') this.#img.src = newValue
-        else { this.#render(); }
-    }
-
-    #render = () => {
-        const grid_size = parseFloat(this.getAttribute('grid-size') || '1');
-        this.#canvas.width = this.#img.naturalWidth;
-        this.#canvas.height = this.#img.naturalHeight;
-
-        let ctx = this.#canvas.getContext('2d')!;
+        console.log()
+        let ctx = c.getContext('2d')!;
         // ctx.drawImage(this.#img, 0, 0);
-        for (let x = 0; x < this.#canvas.width; x += grid_size) {
+        for (let x = 0; x < w; x += this.grid_size) {
+            console.log("vert", x)
             ctx.beginPath();
             ctx.moveTo(x, 0);
-            ctx.lineTo(x, this.#canvas.height);
+            ctx.lineTo(x, c.height);
             ctx.stroke();
         }
-        for (let y = 0; y < this.#canvas.height; y += grid_size) {
+        for (let y = 0; y < h; y += this.grid_size) {
             ctx.beginPath();
             ctx.moveTo(0, y);
-            ctx.lineTo(this.#canvas.width, y);
+            ctx.lineTo(c.width, y);
             ctx.stroke();
         }
     }
 }
-
-customElements.define('battle-map', BattleMap);

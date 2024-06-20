@@ -23,7 +23,7 @@ export class ViewPort extends HTMLElement {
         this.#content = this.#root.querySelector('#transform')!;
         this.#resizeObserver.observe(this);
         this.#resizeObserver.observe(this.#content);
-        document.addEventListener('wheel', this.#wheel, {passive: false})
+        document.addEventListener('wheel', this.#wheel, {passive: true})
         document.addEventListener('keydown', this.#keyboard);
         this.addEventListener('pointerdown', this.#pointerDown);
         this.addEventListener('pointermove', this.#pointerMove);
@@ -56,7 +56,7 @@ export class ViewPort extends HTMLElement {
             const multiplier = event.deltaMode === WheelEvent.DOM_DELTA_LINE ? 10 : 1;
 
             // Don't let any weird inputs cause a jump of more than 50px / 5 lines
-            const delta = Math.min(30, Math.max(-30, -event.deltaY * multiplier));
+            const delta = -event.deltaY * multiplier;
 
             const inc = delta * 0.01 * scale;
             const newX = (event.clientX + x /* + vlocx */) / (scale / inc) + x;
