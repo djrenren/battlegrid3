@@ -6,16 +6,23 @@
   "type": "module",
   "scripts": {
     "start": "vite",
+    "fmt": "prettier . --write",
     "build": "vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lit": "^3.1.4"
+    "lit": "^3.1.4",
+    "y-indexeddb": "^9.0.12"
   },
   "devDependencies": {
+    "prettier": "^3.3.2",
     "typescript": "^5.5.2",
-    "vite": "^5.2.12"
+    "vite": "^5.2.12",
+    "yjs": "^13.6.18"
+  },
+  "prettier": {
+    "printWidth": 100
   }
 }

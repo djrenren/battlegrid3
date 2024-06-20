@@ -1,8 +1,7 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
 
-
-const base = process.env.BASE_URL ?? '/';
+const base = process.env.BASE_URL ?? "/";
 
 export default defineConfig({
-    base
-})
+  base,
+});
