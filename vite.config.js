@@ -12,7 +12,11 @@ export default defineConfig({
     modulePreload: false,
   },
   plugins: [
-    template(),
+    template({
+      options: {
+        shouldMinifyCSS: () => false,
+      },
+    }),
     analyze({
       writeTo: (stats) => {
         fs.writeFileSync("dist/stats.html", stats);

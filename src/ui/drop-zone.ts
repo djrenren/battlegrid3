@@ -5,9 +5,7 @@ import { customElement } from "lit/decorators/custom-element.js";
 @customElement("drop-zone")
 class DropZone extends HTMLElement {
   connectedCallback(): void {
-    this.style.setProperty("display", "inline-block");
-    this.style.setProperty("max-width", "fit-content");
-    this.style.setProperty("max-height", "fit-content");
+    this.style.setProperty("display", "block");
     this.addEventListener("dragover", (e) => {
       this.setAttribute("drag", "");
       this.style.setProperty("--drag-x", e.offsetX + "px");

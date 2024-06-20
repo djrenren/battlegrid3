@@ -42,6 +42,11 @@ class BattleMap extends LitElement {
       display: inline-block;
     }
 
+    img {
+      display: block;
+      margin: 0;
+    }
+
     canvas {
       position: absolute;
       pointer-events: none;
