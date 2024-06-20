@@ -43,7 +43,7 @@
         },
         { capture: true },
       );
-      document.addEventListener("drop", (ev) => ev.preventDefault());
+      document.addEventListener("drop", (ev) => ev.preventDefault(), { capture: true });
     </script>
     <table-top></table-top>
   </body>
