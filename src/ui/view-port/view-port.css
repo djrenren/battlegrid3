@@ -97,7 +97,8 @@
     border: 1px solid #aaa;
     border-radius: 100cqb;
     block-size: 100%;
-    opacity: 0.5;
+    transition: opacity 0.2s;
+    opacity: calc((round(to-zero, var(--thickness), 1) - 1) * -0.75);
     --thickness: calc(var(--v) / var(--ec));
     --t: calc(clamp(0, var(--p) / var(--ec), 1 - var(--thickness)) * 100cqi);
     inline-size: calc(var(--thickness) * 100%);
