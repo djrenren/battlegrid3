@@ -43,7 +43,7 @@ class Tabletop extends LitElement {
     if (grid) return null;
     return html`
       <drop-zone @drop=${this.mapdrop} operation="copy">
-        <dialog open class="paper">Drop a map to get get started</dialog>
+        <div class="drop-message">Drop a map to get get started</div>
       </drop-zone>
     `;
   }
@@ -99,6 +99,30 @@ class Tabletop extends LitElement {
 
         dialog {
             position: unset;
+        }
+
+        drop-zone {
+            justify-self: stretch;
+            align-self: stretch;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .drop-message {
+            font-weight: bold;
+            font-size: 2em;
+            color: darkgray;
+            padding: 1em;
+            border-radius: 1em;
+            transition: all 0.5s;
+            border: 5px solid transparent;
+        }
+
+        drop-zone[drag] > .drop-message {
+            border-color: cornflowerblue;
+            background: Highlight;
+            color: cornflowerblue;
         }
 
         drop-zone[drag] dialog {

@@ -44,7 +44,7 @@
   display: inline-block;
   will-change: transform;
   transform-origin: 0 0;
-  transform: translate3d(calc(var(--x) * -1px), calc(var(--y) * -1px)) scale(var(--scale));
+  transform: translate(calc(var(--x) * -1px), calc(var(--y) * -1px)) scale(var(--scale));
 }
 
 #scroll-x {

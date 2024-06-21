@@ -33,11 +33,16 @@ export class ViewPort extends HTMLElement {
   #resizeObserver = new ResizeObserver((entries) => {
     for (let e of entries) {
       if (e.target === this) {
+        const is_centered = this.#is_centered();
         this.style.setProperty("--vw", e.contentRect.width + "");
         this.style.setProperty("--vh", e.contentRect.height + "");
+        if (is_centered) {
+          this.#zoom_to_fit();
+        }
       } else {
         this.style.setProperty("--cw", e.contentRect.width + "");
         this.style.setProperty("--ch", e.contentRect.height + "");
+        this.#zoom_to_fit();
       }
     }
   });
@@ -70,6 +75,32 @@ export class ViewPort extends HTMLElement {
     }
   };
 
+  #center_params = (margin: number = 100) => {
+    const getProp = (prop: string) => parseFloat(this.#computedStyles.getPropertyValue(prop));
+    let [vw, vh, cw, ch] = ["--vw", "--vh", "--cw", "--ch"].map(getProp);
+
+    const scale = Math.min((vw - margin) / cw, (vh - margin) / ch);
+
+    const x = (vw - cw * scale) / -2;
+    const y = (vh - ch * scale) / -2;
+    return { scale, x, y };
+  };
+
+  #is_centered = (margin: number = 100) => {
+    let [x, y, scale] = ["--x", "--y", "--scale"].map((prop) =>
+      parseFloat(this.#computedStyles.getPropertyValue(prop)),
+    );
+    let center = this.#center_params(margin);
+    return center.x === x && center.y === y && center.scale === scale;
+  };
+
+  #zoom_to_fit = (margin: number = 100) => {
+    const { scale, x, y } = this.#center_params(margin);
+    this.style.setProperty("--scale", scale);
+    this.style.setProperty("--x", x);
+    this.style.setProperty("--y", y);
+  };
+
   #animations = false;
   animate(...args: Parameters<HTMLElement["animate"]>): Animation {
     console.log("animating!");
@@ -87,6 +118,7 @@ export class ViewPort extends HTMLElement {
   #keyboard = (event: KeyboardEvent) => {
     console.log("KEYBOARD!");
     let direction: [number, number];
+
     switch (event.code) {
       case "ArrowUp":
         direction = [0, -1];
@@ -100,7 +132,13 @@ export class ViewPort extends HTMLElement {
       case "ArrowRight":
         direction = [1, 0];
         break;
+      case "Digit0":
+        if (event.ctrlKey || event.metaKey) {
+          event.preventDefault();
+          return this.#zoom_to_fit();
+        }
       default:
+        console.log(event.code);
         return;
     }
     this.animate(

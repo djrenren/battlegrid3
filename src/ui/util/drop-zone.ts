@@ -40,7 +40,6 @@ class DropZone extends HTMLElement {
   }
   connectedCallback(): void {
     this.operation = this.getAttribute("operation") as DataTransfer["dropEffect"] | undefined;
-    this.style.setProperty("display", "block");
     this.addEventListener("dragover", (e) => {
       this.setAttribute("drag", "");
       this.style.setProperty("--drag-x", e.offsetX + "px");
