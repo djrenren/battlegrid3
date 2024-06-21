@@ -90,7 +90,7 @@ class Tabletop extends LitElement {
         }
 
         battle-map {
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             overflow: hidden;
         }
