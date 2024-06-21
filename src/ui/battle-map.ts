@@ -40,6 +40,13 @@ class BattleMap extends LitElement {
     :host {
       position: relative;
       display: inline-block;
+
+      @starting-style {
+        clip-path: circle(25%);
+      }
+      clip-path: circle(75%);
+
+      transition: clip-path 1s;
     }
 
     img {
@@ -78,7 +85,7 @@ class BattleMap extends LitElement {
     const c = this.#canvas.value!;
     const w = t.naturalWidth;
     const h = t.naturalHeight;
-    c.width = w
+    c.width = w;
     c.height = h;
 
     const ctx = c.getContext("2d")!;

@@ -7,6 +7,7 @@ import "./util/drop-zone.js";
 import material from "../styles/material.js";
 import { Map } from "yjs";
 import { IndexeddbPersistence } from "y-indexeddb";
+import { getUrl } from "./util/drop-zone.js";
 
 @customElement("table-top")
 class Tabletop extends LitElement {
@@ -55,7 +56,8 @@ class Tabletop extends LitElement {
 
   /** Sets the first map */
   async mapdrop(e: DragEvent) {
-    const url = e.dataTransfer?.getData("text/uri-list").split("\n")[0]!;
+    const url = getUrl(e.dataTransfer!)!;
+    console.log(url);
     const data = D.yjs({
       src: url,
       grid_size: 35,
