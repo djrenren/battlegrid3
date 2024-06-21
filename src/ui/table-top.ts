@@ -27,7 +27,7 @@ class Tabletop extends LitElement {
   }
 
   mapIfDefined() {
-    let grid = this.tabletop.get("grid")!;
+    const grid = this.tabletop.get("grid")!;
     if (!grid) return null;
     return html`
       <view-port>
@@ -38,7 +38,7 @@ class Tabletop extends LitElement {
   }
 
   firstOpenDialog() {
-    let grid = this.tabletop.get("grid")!;
+    const grid = this.tabletop.get("grid")!;
     if (grid) return null;
     return html`
       <drop-zone @drop=${this.mapdrop}>
@@ -55,15 +55,13 @@ class Tabletop extends LitElement {
 
   /** Sets the first map */
   async mapdrop(e: DragEvent) {
-    let url = e.dataTransfer?.getData("text/uri-list").split("\n")[0]!;
-    console.log(this.tabletop);
-    this.tabletop.set(
-      "grid",
-      new Map([
-        ["src", url],
-        ["grid_size", 35],
-      ]) as D.Grid,
-    );
+    const url = e.dataTransfer?.getData("text/uri-list").split("\n")[0]!;
+    const data = D.yjs({
+      src: url,
+      grid_size: 35,
+      tokens: [] as D.Token[],
+    });
+    this.tabletop.set("grid", data);
     e.stopPropagation();
   }
 
