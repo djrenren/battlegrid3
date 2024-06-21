@@ -3,7 +3,7 @@ import { customElement } from "lit/decorators.js";
 import * as D from "../data/tabletop.js";
 import "./view-port/view-port.js";
 import "./battle-map.js";
-import "./drop-zone.js";
+import "./util/drop-zone.js";
 import material from "../styles/material.js";
 import { Map } from "yjs";
 import { IndexeddbPersistence } from "y-indexeddb";
@@ -41,7 +41,7 @@ class Tabletop extends LitElement {
     const grid = this.tabletop.get("grid")!;
     if (grid) return null;
     return html`
-      <drop-zone @drop=${this.mapdrop}>
+      <drop-zone @drop=${this.mapdrop} operation="copy">
         <dialog open class="paper">Drop a map to get get started</dialog>
       </drop-zone>
     `;

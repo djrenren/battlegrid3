@@ -29,7 +29,7 @@ class BattleMap extends LitElement {
         }
       </style>
       <canvas ${ref(this.#canvas)}></canvas>
-      <drop-zone>
+      <drop-zone operation="copy">
         <div class="drop-preview"></div>
         <img src=${this.src} @load=${this.#onload} />
       </drop-zone>
@@ -76,15 +76,12 @@ class BattleMap extends LitElement {
   #onload = (ev: Event) => {
     const t = ev.target as HTMLImageElement;
     const c = this.#canvas.value!;
-    console.log("c", c);
-    c.width = t.naturalWidth;
-    c.height = t.naturalHeight;
-    let w = t.naturalWidth;
-    let h = t.naturalHeight;
+    const w = t.naturalWidth;
+    const h = t.naturalHeight;
+    c.width = w
+    c.height = h;
 
-    console.log();
-    let ctx = c.getContext("2d")!;
-    // ctx.drawImage(this.#img, 0, 0);
+    const ctx = c.getContext("2d")!;
     for (let x = 0; x < w; x += this.grid_size) {
       console.log("vert", x);
       ctx.beginPath();
