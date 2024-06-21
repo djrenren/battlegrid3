@@ -28,10 +28,10 @@ class BattleMap extends LitElement {
           --grid-size: ${this.grid_size + "px"};
         }
       </style>
-      <canvas ${ref(this.#canvas)}></canvas>
+      <img src=${this.src} @load=${this.#onload} />
       <drop-zone operation="copy">
         <div class="drop-preview"></div>
-        <img src=${this.src} @load=${this.#onload} />
+        <canvas ${ref(this.#canvas)}></canvas>
       </drop-zone>
     `;
   }
@@ -40,13 +40,6 @@ class BattleMap extends LitElement {
     :host {
       position: relative;
       display: inline-block;
-
-      @starting-style {
-        clip-path: circle(25%);
-      }
-      clip-path: circle(75%);
-
-      transition: clip-path 1s;
     }
 
     img {
@@ -55,9 +48,7 @@ class BattleMap extends LitElement {
     }
 
     canvas {
-      position: absolute;
       pointer-events: none;
-      z-index: 100;
     }
 
     .drop-preview {
@@ -70,6 +61,8 @@ class BattleMap extends LitElement {
     }
 
     drop-zone {
+        position: absolute;
+        inset: 0;
       display: block;
     }
 
@@ -89,14 +82,14 @@ class BattleMap extends LitElement {
     c.height = h;
 
     const ctx = c.getContext("2d")!;
-    for (let x = 0; x < w; x += this.grid_size) {
-      console.log("vert", x);
+    ctx.strokeStyle = "white";
+    for (let x = this.grid_size; x < w; x += this.grid_size) {
       ctx.beginPath();
       ctx.moveTo(x, 0);
       ctx.lineTo(x, c.height);
       ctx.stroke();
     }
-    for (let y = 0; y < h; y += this.grid_size) {
+    for (let y = this.grid_size; y < h; y += this.grid_size) {
       ctx.beginPath();
       ctx.moveTo(0, y);
       ctx.lineTo(c.width, y);
