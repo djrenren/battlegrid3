@@ -43,7 +43,7 @@ class Tabletop extends LitElement {
     if (grid) return null;
     return html`
       <drop-zone @drop=${this.mapdrop} operation="copy">
-        <div class="drop-message">Drop a map to get get started</div>
+        <div class="drop-message">Drop a map to get started</div>
       </drop-zone>
     `;
   }
@@ -60,7 +60,7 @@ class Tabletop extends LitElement {
     console.log(url);
     const data = D.yjs({
       src: url,
-      grid_size: 35,
+      grid_size: 70,
       tokens: [] as D.Token[],
     });
     this.tabletop.set("grid", data);
