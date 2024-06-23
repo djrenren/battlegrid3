@@ -30,6 +30,16 @@ export class ViewPort extends HTMLElement {
     this.addEventListener("pointercancel", this.#pointerUp);
   }
 
+  connectedCallback() {
+    document.addEventListener("wheel", this.#wheel, { passive: false });
+    document.addEventListener("keydown", this.#keyboard);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("wheel", this.#wheel);
+    document.removeEventListener("keydown", this.#keyboard);
+  }
+
   #resizeObserver = new ResizeObserver((entries) => {
     console.log("RESIZE");
     for (let e of entries) {
