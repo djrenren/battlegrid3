@@ -138,18 +138,25 @@ export class ViewPort extends HTMLElement {
           event.preventDefault();
           const params = this.#center_params();
 
-          this.animate([{
-            "--x": parseFloat(this.#computedStyles.getPropertyValue("--x")),
-            "--y": parseFloat(this.#computedStyles.getPropertyValue("--y")),
-            "--scale": parseFloat(this.#computedStyles.getPropertyValue("--scale")),
-          }, {
-            "--x": params.x,
-            "--y": params.y,
-            "--scale": params.scale
-          }], {
-            duration: 200,
-            composite: "replace",
-          }).finished.then((a) => (a.commitStyles(), a.cancel()));
+          this.animate(
+            [
+              {
+                "--x": parseFloat(this.#computedStyles.getPropertyValue("--x")),
+                "--y": parseFloat(this.#computedStyles.getPropertyValue("--y")),
+                "--scale": parseFloat(this.#computedStyles.getPropertyValue("--scale")),
+              },
+              {
+                "--x": params.x,
+                "--y": params.y,
+                "--scale": params.scale,
+              },
+            ],
+            {
+              duration: 200,
+              easing: "ease-out",
+              composite: "replace",
+            },
+          ).finished.then((a) => (a.commitStyles(), a.cancel()));
           return this.#zoom_to_fit();
         }
       default:

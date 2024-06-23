@@ -40,6 +40,16 @@ class BattleMap extends LitElement {
     :host {
       position: relative;
       display: inline-block;
+      @starting-style {
+        scale: 0.75;
+        opacity: 0;
+      }
+
+      opacity: 1;
+      scale: 1;
+      transition:
+        opacity 0.5s,
+        scale 0.5s;
     }
 
     img {
@@ -61,8 +71,8 @@ class BattleMap extends LitElement {
     }
 
     drop-zone {
-        position: absolute;
-        inset: 0;
+      position: absolute;
+      inset: 0;
       display: block;
     }
 
