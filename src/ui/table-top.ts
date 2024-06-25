@@ -60,7 +60,7 @@ class Tabletop extends LitElement {
     console.log(url);
     const data = D.yjs({
       src: url,
-      grid_size: 70,
+      grid_size: 75,
       tokens: [] as D.Token[],
     });
     this.tabletop.set("grid", data);

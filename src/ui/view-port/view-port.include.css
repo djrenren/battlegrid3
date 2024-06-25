@@ -35,10 +35,14 @@
   --vh: 0;
   --cw: 0;
   --ch: 0;
-  filter: drop-shadow(0 0 5px #000000aa);
 }
+
 :host(.grabbing) {
   cursor: grabbing;
+}
+
+#effects {
+  filter: drop-shadow(0 0 5px #000000aa);
 }
 
 #transform {
