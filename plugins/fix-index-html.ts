@@ -27,8 +27,8 @@ export function fixIndexHtml(args: Args): Plugin {
         }
 
         let content = (await readFile(outname)).toString();
-        const localoutmain = outmain!.replace(outdir, "");
-        content = content.replaceAll(`src="/${args.main}"`, `src="${localoutmain}"`);
+        const localoutmain = outmain!.replace(`${outdir}/`, "");
+        content = content.replaceAll(new RegExp(`src="/?${args.main}"`, 'g'), `src="${process.env.BASE_URL ? "" : "/"}${localoutmain}"`);
         if (process.env.BASE_URL) {
           content = content.replaceAll(`</head`, `<base href='${process.env.BASE_URL}'></head`);
         }
