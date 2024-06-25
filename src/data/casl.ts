@@ -5,7 +5,7 @@ export async function store(file: File): Promise<string> {
   const hashHex = Array.from(new Uint8Array(hash))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
-  const url = `${location.origin}/resource/${hashHex}`;
+  const url = new URL(`${document.baseURI}/resource/${hashHex}`);
   const req = new Request(url, {});
   (await cache).put(
     req,
@@ -15,5 +15,5 @@ export async function store(file: File): Promise<string> {
       },
     }),
   );
-  return url;
+  return url.toString();
 }

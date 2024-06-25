@@ -7,6 +7,9 @@ type Args = {
   main: string;
 };
 
+// Normalize BASE_URL to always end in /
+const BASE_URL = process.env.BASE_URL ? process.env.BASE_URL.replace(/\/$/, "") + "/" : "/";
+
 export function fixIndexHtml(args: Args): Plugin {
   return {
     name: "fix-index-html",
@@ -28,10 +31,11 @@ export function fixIndexHtml(args: Args): Plugin {
 
         let content = (await readFile(outname)).toString();
         const localoutmain = outmain!.replace(`${outdir}/`, "");
-        content = content.replaceAll(new RegExp(`src="/?${args.main}"`, 'g'), `src="${process.env.BASE_URL ? "" : "/"}${localoutmain}"`);
-        if (process.env.BASE_URL) {
-          content = content.replaceAll(`</head`, `<base href='${process.env.BASE_URL}'></head`);
-        }
+        content = content.replaceAll(
+          new RegExp(`src="/?${args.main}"`, "g"),
+          `src="${localoutmain}"`,
+        );
+        content = content.replaceAll(`</head`, `<base href='${BASE_URL}'></head`);
         await Promise.all([writeFile(`${outdir}/index.html`, content), unlink(outname)]);
       });
     },
