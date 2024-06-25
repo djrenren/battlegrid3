@@ -8,9 +8,11 @@ export function buildOutput(): Plugin {
     setup(build) {
       const stdout = process.stdout;
       build.onEnd(async (result) => {
-        // @ts-ignore
-        await promisify(stdout.cursorTo.bind(stdout, 0, 0))();
-        await promisify(stdout.clearScreenDown.bind(stdout))();
+        if (stdout.isTTY) {
+          // @ts-ignore
+          await promisify(stdout.cursorTo.bind(stdout, 0, 0))();
+          await promisify(stdout.clearScreenDown.bind(stdout))();
+        }
 
         const messages = (
           await Promise.all([

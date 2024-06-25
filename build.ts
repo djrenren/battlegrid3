@@ -42,9 +42,16 @@ const sw = await context({
   metafile: true,
 });
 
-await src.serve({
-  servedir: DIST,
-  port: 8080,
-});
+if (process.argv.includes("--watch")) {
+  await src.serve({
+    servedir: DIST,
+    port: 8080,
+  });
 
-await Promise.race([src.watch(), sw.watch()]);
+  await Promise.race([src.watch(), sw.watch()]);
+} else {
+  await Promise.all([src.rebuild(), sw.rebuild()]);
+}
+
+sw.dispose();
+src.dispose();
