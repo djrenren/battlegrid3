@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "tsx build.ts --serve",
+    "start": "tsx build.ts --watch",
     "fmt": "prettier . --write",
     "build": "tsx build.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

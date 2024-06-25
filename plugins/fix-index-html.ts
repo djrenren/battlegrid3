@@ -29,6 +29,9 @@ export function fixIndexHtml(args: Args): Plugin {
         let content = (await readFile(outname)).toString();
         const localoutmain = outmain!.replace(outdir, "");
         content = content.replaceAll(`src="/${args.main}"`, `src="${localoutmain}"`);
+        if (process.env.BASE_URL) {
+          content = content.replaceAll(`</head`, `<base href='${process.env.BASE_URL}'></head`);
+        }
         await Promise.all([writeFile(`${outdir}/index.html`, content), unlink(outname)]);
       });
     },

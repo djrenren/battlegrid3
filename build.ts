@@ -51,7 +51,6 @@ if (process.argv.includes("--watch")) {
   await Promise.race([src.watch(), sw.watch()]);
 } else {
   await Promise.all([src.rebuild(), sw.rebuild()]);
+  sw.dispose();
+  src.dispose();
 }
-
-sw.dispose();
-src.dispose();
