@@ -56,7 +56,7 @@ class Tabletop extends LitElement {
 
   /** Sets the first map */
   async mapdrop(e: DragEvent) {
-    const url = getUrl(e.dataTransfer!)!;
+    const url = await getUrl(e.dataTransfer!)!;
     console.log(url);
     const data = D.yjs({
       src: url,

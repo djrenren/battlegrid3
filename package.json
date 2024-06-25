@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "vite",
+    "start": "tsx build.ts --serve",
     "fmt": "prettier . --write",
-    "build": "vite build",
+    "build": "tsx build.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,12 +17,14 @@
     "y-indexeddb": "^9.0.12"
   },
   "devDependencies": {
+    "@types/node": "^20.14.8",
+    "esbuild": "^0.21.5",
+    "esbuild-plugin-copy": "^2.1.1",
     "prettier": "^3.3.2",
-    "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-html-literals": "^1.1.8",
-    "terser": "^5.31.1",
+    "tsx": "^4.15.7",
     "typescript": "^5.5.2",
-    "vite": "^5.2.12",
+    "workbox-build": "^7.1.1",
+    "workbox-precaching": "^7.1.0",
     "yjs": "^13.6.18"
   },
   "prettier": {

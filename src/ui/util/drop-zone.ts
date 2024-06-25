@@ -1,4 +1,6 @@
 import { customElement } from "lit/decorators/custom-element.js";
+import { store } from "../../data/casl.js";
+// import { CASL } from "../index.js";
 
 /**
  * A simple drop-zone element that tracks drop-state in CSS and sets the dropEffect.
@@ -64,10 +66,16 @@ class DropZone extends HTMLElement {
  * @param d The data transfer object
  * @returns The extracted URL
  */
-export function getUrl(d: DataTransfer): string | undefined {
+export async function getUrl(d: DataTransfer): Promise<string | undefined> {
   // We prefer to fetch images from the HTML data, as opposed to url-list
   // because it's more likely to be a direct link to the image, as opposed to
   // a link to a page containing the image.
+
+  const file = d.files[0];
+  if (file) {
+    return await store(file);
+  }
+
   const html = d.getData("text/html");
   const doc = new DOMParser().parseFromString(html, "text/html");
   const url = doc.querySelector("img")?.src;

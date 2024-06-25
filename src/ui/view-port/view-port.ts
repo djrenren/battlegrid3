@@ -1,5 +1,5 @@
-import template from "./view-port.html?raw";
-import css from "./view-port.css?inline";
+import template from "./view-port.include.html";
+import css from "./view-port.include.css";
 
 // Load the HTML template
 const templateElement = document.createElement("template");
