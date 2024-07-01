@@ -7,7 +7,7 @@ export async function store(file: File): Promise<string> {
     .join("");
   const url = new URL(`${document.baseURI}/resource/${hashHex}`);
   const req = new Request(url, {});
-  (await cache).put(
+  await (await cache).put(
     req,
     new Response(arrayBuffer, {
       headers: {
