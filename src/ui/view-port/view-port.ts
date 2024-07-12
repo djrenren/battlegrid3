@@ -22,7 +22,6 @@ export class ViewPort extends HTMLElement {
     this.#content = this.#root.querySelector("#transform")!;
     this.#resizeObserver.observe(this);
     this.#resizeObserver.observe(this.#content);
-    document.addEventListener("wheel", this.#wheel, { passive: false });
     document.addEventListener("keydown", this.#keyboard);
     this.addEventListener("pointerdown", this.#pointerDown);
     this.addEventListener("pointermove", this.#pointerMove);
